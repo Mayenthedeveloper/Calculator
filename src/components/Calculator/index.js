@@ -35,7 +35,40 @@ export default function Calculator() {
     setOperation(e.target.getAttribute("data"));
   };
 
-  const compute = () => {};
+  const equals = () => {
+    let value = compute();
+    if (value == undefined || value == null) return;
+    setCurrent(value);
+    setPrevious("");
+    setOperation("");
+  };
+
+  const compute = () => {
+    let result;
+    let previousNumber = parseFloat(previous);
+    let currentNumber = parseFloat(current);
+
+    if (isNaN(previousNumber) || isNaN(currentNumber)) return;
+
+    switch (operation) {
+      case "÷":
+        result = previousNumber / currentNumber;
+        break;
+      case "x":
+        result = previousNumber * currentNumber;
+        break;
+      case "+":
+        result = previousNumber + currentNumber;
+        break;
+      case "-":
+        result = previousNumber - currentNumber;
+        break;
+
+      default:
+        return;
+    }
+    return result;
+  };
 
   return (
     <Container>
@@ -96,7 +129,7 @@ export default function Calculator() {
       <Button data={"0"} onClick={appendValue}>
         0
       </Button>
-      <Button gridSpan={2} equals>
+      <Button gridSpan={2} onClick={equals} equals>
         =
       </Button>
     </Container>
