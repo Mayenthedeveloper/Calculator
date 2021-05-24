@@ -4,20 +4,39 @@ import { Container, Screen, Previous, Current, Button } from "./Styled";
 
 export default function Calculator() {
   const [current, setCurrent] = useState("");
+  const [previous, setPrevious] = useState("");
+  const [operation, setOperation] = useState("");
 
-  const appendValue = (el) => {
-    const value = el.target.getAttribute("data");
+  const appendValue = (e) => {
+    const value = e.target.getAttribute("data");
     if (value === "." && current.includes(".")) return;
     setCurrent(current + value);
   };
+
+  const handleDelete = () => {
+    setCurrent(String(current).slice(0, -1));
+  };
+
+  const handleAllClear = () => {
+    setCurrent("");
+    setOperation("");
+    setOperation("");
+  };
+
   return (
     <Container>
       <Screen>
-        <Previous>10 +</Previous>
+        <Previous>
+          {previous} {operation}
+        </Previous>
         <Current>{current}</Current>
       </Screen>
-      <Button gridSpan={2}>AC</Button>
-      <Button control>DEL</Button>
+      <Button onClick={handleAllClear} gridSpan={2}>
+        AC
+      </Button>
+      <Button control onClick={handleDelete}>
+        DEL
+      </Button>
       <Button operation>÷</Button>
       <Button data={"7"} onClick={appendValue}>
         7
